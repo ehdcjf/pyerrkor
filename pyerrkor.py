@@ -1,5 +1,6 @@
 import sys
 from IPython.display import HTML, display
+import re
 
 
 # (주피터 노트북 탐지용)
@@ -90,20 +91,72 @@ KOR_ERROR_NAME = {
 
 # 한글 에러 메시지 매칭
 error_messages = {
-    "ZeroDivisionError": "0으로 나누기를 시도했습니다.",
-    "NameError": "정의되지 않은 변수를 사용했습니다.",
-    "TypeError": "자료형이 맞지 않아 연산할 수 없습니다.",
     "IndexError": "리스트나 문자열 인덱스를 잘못 사용했습니다.",
     "KeyError": "딕셔너리에 존재하지 않는 키를 사용했습니다.",
 }
 
+_handlers: dict[str, callable] = {}
+
+
+def register(error_name: str):
+    """에러이름을 키로 핸들러 함수 등록"""
+
+    def decorator(fn: callable):
+        _handlers[error_name] = fn
+        return fn
+
+    return decorator
+
+
+def get_kor_error_info(exc_type, exc_value):
+    err_name = exc_type.__name__
+    if err_name in _handlers:
+        return _handlers[err_name](exc_type, exc_value)
+    return ("정의되지 않은 에러", str(exc_value))
+
+
+@register("NameError")
+def _handle_name_error(exc_type, exc_value):
+    kor_err_name = "이름 오류"
+    m = re.search(r"name '(.+?)' is not defined", str(exc_value))
+    var = m.group(1) if m else ""
+    kor_err_message = f"정의되지 않은 변수 '{var}'를 사용했습니다."
+    return (kor_err_name, kor_err_message)
+
+
+@register("ZeroDivisionError")
+def _handle_zero_division_error(exc_type, exc_value):
+    kor_err_name = "0나누기 오류"
+    kor_err_message = "0으로 나누기를 시도했습니다."
+    return (kor_err_name, kor_err_message)
+
+
+@register("IndexError")
+def _handle_index_error(exc_type, exc_value):
+    kor_err_name = "인덱스 오류"
+    kor_err_message = "인덱스를 잘못 사용했습니다."
+    return (kor_err_name, kor_err_message)
+
+
+@register("KeyError")
+def _handle_key_error(exc_type, exc_value):
+    kor_err_name = "키 오류"
+    kor_err_message = "딕셔너리에 존재하지 않는 키를 사용했습니다."
+    return (kor_err_name, kor_err_message)
+
+
+# 타입에러는 좀 심화해서 구현할 필요 있음
+@register("TypeError")
+def _handle_type_error(exc_type, exc_value):
+    kor_err_name = "타입 오류"
+    kor_err_message = "자료형이 맞지 않아 연산할 수 없습니다."
+    return (kor_err_name, kor_err_message)
+
 
 # 기본 에러 핸들러
 def custom_handler(exc_type, exc_value, exc_traceback):
-    error_name = exc_type.__name__
-    kor_error_name = KOR_ERROR_NAME.get(error_name, "정의되지 않은 에러")
-    msg = error_messages.get(error_name, f"{error_name}")
-    print(f"\033[91m{kor_error_name}\033[0m: {msg}\n")
+    kor_error_name, kor_error_message = get_kor_error_info(exc_type, exc_value)
+    print(f"\033[91m{kor_error_name}\033[0m: {kor_error_message}\n")
     # 원래 에러 출력
     import traceback
 
@@ -112,10 +165,13 @@ def custom_handler(exc_type, exc_value, exc_traceback):
 
 # 주피터 노트북용 핸들러
 def ipython_handler(shell, exc_type, exc_value, exc_traceback, tb_offset=None):
-    error_name = exc_type.__name__
-    kor_error_name = KOR_ERROR_NAME.get(error_name, "정의되지 않은 에러")
-    msg = error_messages.get(error_name, f"{error_name}")
-    display(HTML(f'<span style="color:magenta;">{kor_error_name}</span>: {msg}\n'))
+    kor_error_name, kor_error_message = get_kor_error_info(exc_type, exc_value)
+    display(
+        HTML(
+            f'<span style="color:magenta;">{kor_error_name}</span>: {kor_error_message}\n'
+        )
+    )
+
     # 원래 에러를 IPython 스타일로 출력
     shell.showtraceback((exc_type, exc_value, exc_traceback), tb_offset=tb_offset)
     return None

@@ -2,7 +2,6 @@ README.md
 pyproject.toml
 pyerrkor/__init__.py
 pyerrkor/core.py
-pyerrkor/main.py
 pyerrkor/registry.py
 pyerrkor.egg-info/PKG-INFO
 pyerrkor.egg-info/SOURCES.txt
@@ -12,6 +11,7 @@ pyerrkor/display/cli.py
 pyerrkor/display/jupyter.py
 pyerrkor/handlers/__init__.py
 pyerrkor/handlers/main/__init__.py
+pyerrkor/handlers/main/indentation_error.py
 pyerrkor/handlers/main/index_error.py
 pyerrkor/handlers/main/key_error.py
 pyerrkor/handlers/main/name_error.py

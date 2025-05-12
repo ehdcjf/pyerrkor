@@ -2,7 +2,7 @@ import sys
 from .registry import get_kor_error_info
 from .display.cli import print_cli_error
 from .display.jupyter import display_jupyter_error
-from pyerrkor.handlers import *  # 모든 핸들러 등록
+from .handlers import *  # 모든 핸들러 등록
 
 
 def custom_handler(exc_type, exc_value, exc_traceback):

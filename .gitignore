@@ -1,1 +1,4 @@
 __pycache__
+
+# setuptools / pip metadata
+*.egg-info/

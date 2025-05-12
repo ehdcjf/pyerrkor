@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyerrkor"
+version = "0.1.0"
+description = "한글 파이썬 에러 메시지 패키지"
+readme = "README.md"
+requires-python = ">=3.7"

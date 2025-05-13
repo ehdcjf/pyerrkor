@@ -10,9 +10,5 @@ def builtin_key_error(exc_type, exc_value):
     # 1. dict에서 없는 키 접근
     return (
         "키 오류",
-        f"""
-딕셔너리에 존재하지 않는 키 '{clean_key}'를 사용했습니다.
-- 존재 확인: '{clean_key}' in my_dict
-- 안전 접근: my_dict.get('{clean_key}', 기본값)
-""",
+        f"딕셔너리에 존재하지 않는 키 '{clean_key}'를 사용했습니다.",
     )

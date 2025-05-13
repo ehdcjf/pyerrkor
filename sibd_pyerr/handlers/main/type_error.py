@@ -27,7 +27,7 @@ def _handle_type_error(exc_type, exc_value):
         },
         {
             "pattern": r"'(\w+)' object is not subscriptable",
-            "message": lambda m: f"{m.group(1)} 자료형은 인덱싱이 지원되지 않습니다. (예: {m.group(1)}[0])",
+            "message": lambda m: f"{m.group(1)} 자료형은 인덱싱이 지원되지 않습니다. ",
         },
         {
             "pattern": r"'(\w+)' object is not iterable",
@@ -80,7 +80,7 @@ def _handle_type_error(exc_type, exc_value):
             )
         return (
             kor_err_name,
-            "함수가 아닌 값을 호출하려 했습니다. (예: 문자열에 괄호를 붙임)",
+            "함수가 아닌 값을 호출하려 했습니다.",
         )
 
     return kor_err_name, "자료형이 맞지 않아 연산할 수 없습니다."

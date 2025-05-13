@@ -31,9 +31,9 @@ def _handle_value_error(exc_type, exc_value):
             lambda m: f"{m.group(1)}개의 변수만 필요한데, 더 많은 값을 받았습니다.\n언패킹할 객체의 길이를 확인하세요.",
         ),
         (
-            r"x not in list",
+            r"not in list",
             "리스트에 값 없음",
-            lambda m: "삭제하려는 값이 리스트에 존재하지 않습니다.\n삭제 전에 값이 존재하는지 확인하세요.",
+            lambda m: "값이 리스트에 존재하지 않습니다.",
         ),
         (
             r"range\(\) arg 3 must not be zero",

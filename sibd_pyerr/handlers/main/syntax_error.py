@@ -10,7 +10,6 @@ def format_syntax_location(exc_value):
     lineno = exc_value.lineno
     offset = exc_value.offset
 
-    # 위치 표시 (예: ---^)
     pointer = " " * (offset - 1) + "^" if offset else ""
     return f"문제의 줄 (Line {lineno}):\n{line}\n{pointer}"
 
@@ -49,12 +48,12 @@ def syntax_error_handler(exc_type, exc_value):
         (
             r"f-string: unmatched",
             "f-string 괄호 오류",
-            lambda m: "f-string 내부 표현식에서 괄호가 맞지 않습니다.\n예: f'{value + (1}' ← 괄호 닫기 누락",
+            lambda m: "f-string 내부 표현식에서 괄호가 맞지 않습니다.",
         ),
         (
             r"f-string: expecting '}'",
             "f-string 중괄호 오류",
-            lambda m: "f-string 내부 표현식이 중괄호로 닫히지 않았습니다.\n예: f'{value + 1' ← 중괄호 누락",
+            lambda m: "f-string 내부 표현식이 중괄호로 닫히지 않았습니다.",
         ),
         (
             r"f-string: expressions nested too deeply",

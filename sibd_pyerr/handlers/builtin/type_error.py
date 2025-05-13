@@ -58,14 +58,14 @@ def _handle_type_error(exc_type, exc_value):
             )
         return (
             kor_err_name,
-            "함수가 아닌 값을 호출하려 했습니다. (예: 문자열에 괄호를 붙임)",
+            "함수가 아닌 값을 호출하려 했습니다.",
         )
 
     # 6. not subscriptable
     m_subscript = re.search(r"'(\w+)' object is not subscriptable", msg)
     if m_subscript:
         t = m_subscript.group(1)
-        return kor_err_name, f"{t} 자료형은 인덱싱이 지원되지 않습니다. (예: {t}[0])"
+        return kor_err_name, f"{t} 자료형은 인덱싱이 지원되지 않습니다."
 
     # 7. not iterable
     m_iter = re.search(r"'(\w+)' object is not iterable", msg)

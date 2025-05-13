@@ -2,6 +2,19 @@ from pyerrkor.registry import register
 import re
 
 
+def format_syntax_location(exc_value):
+    if not hasattr(exc_value, "text") or exc_value.text is None:
+        return ""
+
+    line = exc_value.text.rstrip("\n")
+    lineno = exc_value.lineno
+    offset = exc_value.offset
+
+    # 위치 표시 (예: ---^)
+    pointer = " " * (offset - 1) + "^" if offset else ""
+    return f"문제의 줄 (Line {lineno}):\n{line}\n{pointer}"
+
+
 @register("SyntaxError")
 def syntax_error_handler(exc_type, exc_value):
     kor_err_name = "문법 오류"
@@ -52,7 +65,8 @@ def syntax_error_handler(exc_type, exc_value):
 
     for pattern, summary, explain in patterns:
         if re.search(pattern, msg):
-            return kor_err_name + f" - {summary}", explain(None)
+            location = format_syntax_location(exc_value)
+            return kor_err_name, f"{ explain(None)}\n\n{location}"
 
     return (
         kor_err_name,

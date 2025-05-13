@@ -26,8 +26,6 @@
     "IOError": "",
     "ImportError": "불러오기_에러",
     "ImportWarning": "",
-    "IndentationError": "들여쓰기_에러",
-    "IndexError": "인덱스_에러",
     "InterruptedError": "",
     "IsADirectoryError": "",
     "KeyError": "키_에러",

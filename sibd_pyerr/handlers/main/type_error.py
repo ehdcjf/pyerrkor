@@ -1,4 +1,4 @@
-from pyerrkor.registry import register
+from sibd_pyerr.registry import register
 import traceback
 import re
 

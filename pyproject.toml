@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sibd_pyerr"
-version = "0.1.0"
+version = "0.1.1"
 description = "선일빅데이터고등학교 파이썬 에러 한글화"
 authors = [
     { name = "김동철", email = "lhoiktn@gmail.com" }

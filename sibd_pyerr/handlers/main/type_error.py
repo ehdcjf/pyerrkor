@@ -76,7 +76,7 @@ def _handle_type_error(exc_type, exc_value):
         code_lines = [frame.line for frame in tb if frame.line]
         if any("print" in line for line in code_lines):
             return kor_err_name, (
-                "print 함수를 문자열로 덮어썼습니다. 커널을 재시작하거나 del print 후 다시 시도하세요."
+                "print 함수를 덮어썼습니다. 커널을 재시작하거나 del print 후 다시 시도하세요."
             )
         return (
             kor_err_name,

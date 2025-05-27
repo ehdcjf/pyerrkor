@@ -30,3 +30,6 @@ def install():
     except ImportError:
         pass
     sys.excepthook = custom_handler
+    print(
+        "This package was developed for educational use at SUNIL BIGDATA HIGH SCHOOL.\n Enjoy Programming^_^"
+    )
